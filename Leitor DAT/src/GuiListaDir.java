@@ -172,7 +172,7 @@ public class GuiListaDir {
 
 	public boolean excecaoPasta(String diretorio)
 	{
-		if(diretorio == null || diretorio.equals("") ||  diretorio.equals("Selecionar a pasta com arquivos .PRN"))
+		if(diretorio == null || diretorio.equals("") ||  diretorio.equals("Selecionar a pasta com arquivos .PRN") || diretorio.equals("Selecionar o arquivo .DAT") || diretorio.equals("Pasta de Destino"))
 		{
 			return false;
 		}	

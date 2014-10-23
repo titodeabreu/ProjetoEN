@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -31,14 +32,15 @@ public class GuiListaDir {
 	JButton limparaba1;
 	JButton limparaba2;
 	JButton limparaba3;
-	JButton gerarArquivosEntrada;
+	JButton gerarArquivos;
 	JButton xls;
 	JLabel inf;
 	JFrame frame;
 	JLabel status;
 	JFileChooser fchooser;
 	JTextArea tarea;
-	List<File> listadefiles;
+	List<File> listFilePRN;
+	File fileDAT;
 	JButton copiar;
 
 	public void interfaceGui(Container pane) {
@@ -60,7 +62,7 @@ public class GuiListaDir {
 		limparaba1 = new JButton("Limpar");
 		limparaba2 = new JButton("Limpar");
 		limparaba3 = new JButton("Limpar");
-		gerarArquivosEntrada = new JButton("Gerar");
+		gerarArquivos = new JButton("Gerar");
 		
 
 		// ABA1
@@ -80,7 +82,7 @@ public class GuiListaDir {
 		panel3.add(destinoSalvar);
 		panel3.add(procurarDestinoSalvar);
 		panel3.add(limparaba3);
-		panel3.add(gerarArquivosEntrada);
+		panel3.add(gerarArquivos);
 
 		// Organização das abas
 		tabs.add(panel1, TAB1);
@@ -94,13 +96,15 @@ public class GuiListaDir {
 		//Procurar
 		this.procurarPRN.addActionListener(new GuiListaDir.bprocurarPRN());
 		this.procurarDAT.addActionListener(new GuiListaDir.bprocurarDAT());
-		this.procurarDestinoSalvar
-				.addActionListener(new GuiListaDir.bprocurarDestinoSalvar());
+		this.procurarDestinoSalvar.addActionListener(new GuiListaDir.bprocurarDestinoSalvar());
 		
 		//Limpar
 		this.limparaba1.addActionListener(new GuiListaDir.blimparAba1());
 		this.limparaba2.addActionListener(new GuiListaDir.blimparAba2());
 		this.limparaba3.addActionListener(new GuiListaDir.blimparAba3());
+		
+		//Gerar
+		this.gerarArquivos.addActionListener(new GuiListaDir.gerarArquivosAL());
 	}
 
 	public void itemStateChanged(ItemEvent evt) {
@@ -121,10 +125,28 @@ public class GuiListaDir {
 		frame.pack();
 		frame.setVisible(true);
 	}
+	
+	public class gerarArquivosAL implements ActionListener {
+		public gerarArquivosAL() {}
+
+		public void actionPerformed(ActionEvent e) {
+
+			GuiListaDir.this.listFilePRN = new GeradorDeDiretorio().getListFile(GuiListaDir.this.diretorioPRN.getText());
+			GuiListaDir.this.fileDAT = new GeradorDeDiretorio().getFile(GuiListaDir.this.diretorioDAT.getText());
+			String path = GuiListaDir.this.destinoSalvar.getText();
+			
+			for (File filePRN : GuiListaDir.this.listFilePRN) {
+				try {
+					GeradorDeDiretorio.gerarArquivosEntrada(filePRN, GuiListaDir.this.fileDAT, path);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+	}
 
 	public class bprocurarPRN implements ActionListener {
-		public bprocurarPRN() {
-		}
+		public bprocurarPRN() {}
 
 		public void actionPerformed(ActionEvent e) {
 
@@ -139,8 +161,7 @@ public class GuiListaDir {
 	}
 
 	public class bprocurarDAT implements ActionListener {
-		public bprocurarDAT() {
-		}
+		public bprocurarDAT() {}
 
 		public void actionPerformed(ActionEvent e) {
 
@@ -155,8 +176,7 @@ public class GuiListaDir {
 	}
 
 	public class bprocurarDestinoSalvar implements ActionListener {
-		public bprocurarDestinoSalvar() {
-		}
+		public bprocurarDestinoSalvar() {}
 
 		public void actionPerformed(ActionEvent e) {
 
@@ -171,36 +191,30 @@ public class GuiListaDir {
 	}
 	
 	public class blimparAba1 implements ActionListener {
-		public blimparAba1() {
-		}
+		public blimparAba1() {}
 
 		public void actionPerformed(ActionEvent e) {
 			GeradorDeDiretorio.lista.clear();
-			GeradorDeDiretorio.zerarNumerosDeDirEArq();
 
 			GuiListaDir.this.diretorioPRN.setText("");
 		}
 	}
 	
 	public class blimparAba2 implements ActionListener {
-		public blimparAba2() {
-		}
+		public blimparAba2() {}
 
 		public void actionPerformed(ActionEvent e) {
 			GeradorDeDiretorio.lista.clear();
-			GeradorDeDiretorio.zerarNumerosDeDirEArq();
 
 			GuiListaDir.this.diretorioDAT.setText("");
 		}
 	}
 	
 	public class blimparAba3 implements ActionListener {
-		public blimparAba3() {
-		}
+		public blimparAba3() {}
 
 		public void actionPerformed(ActionEvent e) {
 			GeradorDeDiretorio.lista.clear();
-			GeradorDeDiretorio.zerarNumerosDeDirEArq();
 
 			GuiListaDir.this.destinoSalvar.setText("");
 		}

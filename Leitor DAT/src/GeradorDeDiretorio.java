@@ -1,32 +1,22 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GeradorDeDiretorio {
-
-	public static int interacao;
+	
 	public static List<File> lista = new ArrayList<File>();
-	private static int numerodearquivos;
-	private static int numerodediretorios;
 
-	public List<File> getLista(String dir) {
+	public List<File> getListFile(String dir) {
 		File file = new File(dir);
 		File[] files = file.listFiles();
 		try {
 			for (File f : files) {
-				if (f.isDirectory()) {
-					numerodediretorios += 1;
-					interacao += 1;
-					System.out.println(interacao);
-
-					getLista(f.toString());
-				} else {
-					lista.add(f);
-					numerodearquivos += 1;
-				}
+				lista.add(f);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -34,32 +24,28 @@ public class GeradorDeDiretorio {
 		return lista;
 	}
 	
+	public File getFile(String dir) {
+		File file = new File(dir);
+		return file;
+	}
+	
 	public static String lerArquivo(File file) throws IOException {
 		String conteudo = "";
 		FileReader reader = new FileReader(file);
-		BufferedReader leitor = new BufferedReader(reader);
-		String linha = null;
-		while ((linha = leitor.readLine()) != null) {
-			conteudo += "\n"+linha;
-			System.out.printf("\n", conteudo);
+		BufferedReader buffReader = new BufferedReader(reader);
+		while (buffReader.readLine() != null) {
+			conteudo += buffReader.readLine()+"\n";
 		}
 		return conteudo;
 	}
-
-	public static int getInteracao() {
-		return interacao;
-	}
-
-	public static int getNumerodearquivos() {
-		return numerodearquivos;
-	}
-
-	public static int getNumerodediretorios() {
-		return numerodediretorios;
-	}
-
-	public static void zerarNumerosDeDirEArq() {
-		numerodearquivos = 0;
-		numerodediretorios = 0;
+	
+	public static void gerarArquivosEntrada(File filePRN, File fileDAT, String path) throws IOException {
+		path = path.concat("/arquivo.dat");
+		
+		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
+		buffWrite.append(lerArquivo(filePRN));
+		buffWrite.append(lerArquivo(fileDAT));
+		buffWrite.close();
+		
 	}
 }

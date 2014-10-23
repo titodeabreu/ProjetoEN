@@ -33,6 +33,8 @@ public class GeradorDeDiretorio {
 	}
 	
 	public static String lerArquivo(File file) throws IOException {
+		
+		//TESTE TESTE
 		String conteudo = "";
 		FileReader reader = new FileReader(file);
 		BufferedReader buffReader = new BufferedReader(reader);

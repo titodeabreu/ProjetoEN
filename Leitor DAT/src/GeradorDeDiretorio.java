@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class GeradorDeDiretorio {
 	
 	public static List<File> lista = new ArrayList<File>();
@@ -39,13 +42,16 @@ public class GeradorDeDiretorio {
 		return conteudo;
 	}
 	
-	public static void gerarArquivosEntrada(File filePRN, File fileDAT, String path) throws IOException {
+	public static void gerarArquivosEntrada(JFrame frame,File filePRN, File fileDAT, String path) throws IOException {
 		path = path.concat("/arquivo.dat");
 		
 		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
 		buffWrite.append(lerArquivo(filePRN));
 		buffWrite.append(lerArquivo(fileDAT));
 		buffWrite.close();
+		
+		JOptionPane.showMessageDialog(frame,
+			    "Arquivos gerados com sucesso na pasta: "+path);
 		
 	}
 }

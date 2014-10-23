@@ -12,12 +12,14 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class GuiListaDir {
 
@@ -131,13 +133,43 @@ public class GuiListaDir {
 
 		public void actionPerformed(ActionEvent e) {
 
-			GuiListaDir.this.listFilePRN = new GeradorDeDiretorio().getListFile(GuiListaDir.this.diretorioPRN.getText());
-			GuiListaDir.this.fileDAT = new GeradorDeDiretorio().getFile(GuiListaDir.this.diretorioDAT.getText());
-			String path = GuiListaDir.this.destinoSalvar.getText();
+			String path = null;
 			
+			if(GuiListaDir.this.diretorioPRN.getText() == null || GuiListaDir.this.diretorioPRN.getText().equals("") ||  GuiListaDir.this.diretorioPRN.getText().equals("Selecionar a pasta com arquivos .PRN"))
+			{	
+				JOptionPane.showMessageDialog(frame,
+				    "Favor selecionar o arquivo/pasta com o(s) arquivo(s) .PRN",
+				    "Mensagem de Erro",
+				    JOptionPane.ERROR_MESSAGE);
+				}
+			else{
+				GuiListaDir.this.listFilePRN = new GeradorDeDiretorio().getListFile(GuiListaDir.this.diretorioPRN.getText());
+			}
+			
+			if(GuiListaDir.this.diretorioDAT.getText() == null || GuiListaDir.this.diretorioDAT.getText().equals("") ||  GuiListaDir.this.diretorioDAT.getText().equals("Selecionar o arquivo .DAT"))
+			{	
+				JOptionPane.showMessageDialog(frame,
+				    "Favor selecionar o arquivo .DAT",
+				    "Mensagem de Erro",
+				    JOptionPane.ERROR_MESSAGE);
+				}
+			else{
+			GuiListaDir.this.fileDAT = new GeradorDeDiretorio().getFile(GuiListaDir.this.diretorioDAT.getText());
+			}
+			
+			if(GuiListaDir.this.destinoSalvar.getText() == null || GuiListaDir.this.destinoSalvar.getText().equals("") ||  GuiListaDir.this.destinoSalvar.getText().equals("Pasta de Destino"))
+			{	
+				JOptionPane.showMessageDialog(frame,
+				    "Favor selecionar a pasta de destino",
+				    "Mensagem de Erro",
+				    JOptionPane.ERROR_MESSAGE);
+				}
+			else{
+			path = GuiListaDir.this.destinoSalvar.getText();
+			}
 			for (File filePRN : GuiListaDir.this.listFilePRN) {
 				try {
-					GeradorDeDiretorio.gerarArquivosEntrada(filePRN, GuiListaDir.this.fileDAT, path);
+					GeradorDeDiretorio.gerarArquivosEntrada(frame, filePRN, GuiListaDir.this.fileDAT, path);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -149,8 +181,9 @@ public class GuiListaDir {
 		public bprocurarPRN() {}
 
 		public void actionPerformed(ActionEvent e) {
-
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos .PRN","prn");
 			GuiListaDir.this.fchooser = new JFileChooser();
+			GuiListaDir.this.fchooser.setFileFilter(filter);
 			GuiListaDir.this.fchooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			GuiListaDir.this.fchooser.enableInputMethods(true);
 			GuiListaDir.this.fchooser.showSaveDialog(GuiListaDir.this.frame);
@@ -165,7 +198,9 @@ public class GuiListaDir {
 
 		public void actionPerformed(ActionEvent e) {
 
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos .DAT","dat");
 			GuiListaDir.this.fchooser = new JFileChooser();
+			GuiListaDir.this.fchooser.setFileFilter(filter);
 			GuiListaDir.this.fchooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			GuiListaDir.this.fchooser.enableInputMethods(true);
 			GuiListaDir.this.fchooser.showSaveDialog(GuiListaDir.this.frame);

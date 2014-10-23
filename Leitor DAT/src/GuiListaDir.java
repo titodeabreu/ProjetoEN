@@ -133,43 +133,36 @@ public class GuiListaDir {
 
 		public void actionPerformed(ActionEvent e) {
 
-			String path = null;
-			
-			if(GuiListaDir.this.diretorioPRN.getText() == null || GuiListaDir.this.diretorioPRN.getText().equals("") ||  GuiListaDir.this.diretorioPRN.getText().equals("Selecionar a pasta com arquivos .PRN"))
-			{	
-				JOptionPane.showMessageDialog(frame,
-				    "Favor selecionar o arquivo/pasta com o(s) arquivo(s) .PRN",
-				    "Mensagem de Erro",
-				    JOptionPane.ERROR_MESSAGE);
-				}
-			else{
-				GuiListaDir.this.listFilePRN = new GeradorDeDiretorio().getListFile(GuiListaDir.this.diretorioPRN.getText());
+			if (excecaoPasta(GuiListaDir.this.diretorioPRN.getText())) {
+				GuiListaDir.this.listFilePRN = new GeradorDeDiretorio()
+						.getListFile(GuiListaDir.this.diretorioPRN.getText());
+			} else {
+				JOptionPane
+						.showMessageDialog(
+								frame,
+								"Favor selecionar o arquivo/pasta com o(s) arquivo(s) .PRN",
+								"Mensagem de Erro", JOptionPane.ERROR_MESSAGE);
 			}
-			
-			if(GuiListaDir.this.diretorioDAT.getText() == null || GuiListaDir.this.diretorioDAT.getText().equals("") ||  GuiListaDir.this.diretorioDAT.getText().equals("Selecionar o arquivo .DAT"))
-			{	
+
+			if (excecaoPasta(GuiListaDir.this.diretorioDAT.getText())) {
+				GuiListaDir.this.fileDAT = new GeradorDeDiretorio()
+						.getFile(GuiListaDir.this.diretorioDAT.getText());
+			} else {
 				JOptionPane.showMessageDialog(frame,
-				    "Favor selecionar o arquivo .DAT",
-				    "Mensagem de Erro",
-				    JOptionPane.ERROR_MESSAGE);
-				}
-			else{
-			GuiListaDir.this.fileDAT = new GeradorDeDiretorio().getFile(GuiListaDir.this.diretorioDAT.getText());
+						"Favor selecionar o arquivo .DAT", "Mensagem de Erro",
+						JOptionPane.ERROR_MESSAGE);
 			}
-			
-			if(GuiListaDir.this.destinoSalvar.getText() == null || GuiListaDir.this.destinoSalvar.getText().equals("") ||  GuiListaDir.this.destinoSalvar.getText().equals("Pasta de Destino"))
-			{	
+
+			if (excecaoPasta(GuiListaDir.this.destinoSalvar.getText())) {
+				GuiListaDir.this.destinoSalvar.getText();
+			} else {
 				JOptionPane.showMessageDialog(frame,
-				    "Favor selecionar a pasta de destino",
-				    "Mensagem de Erro",
-				    JOptionPane.ERROR_MESSAGE);
-				}
-			else{
-			path = GuiListaDir.this.destinoSalvar.getText();
+						"Favor selecionar a pasta de destino",
+						"Mensagem de Erro", JOptionPane.ERROR_MESSAGE);
 			}
 			for (File filePRN : GuiListaDir.this.listFilePRN) {
 				try {
-					GeradorDeDiretorio.gerarArquivosEntrada(frame, filePRN, GuiListaDir.this.fileDAT, path);
+					GeradorDeDiretorio.gerarArquivosEntrada(frame, filePRN, GuiListaDir.this.fileDAT, GuiListaDir.this.destinoSalvar.getText());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -177,6 +170,16 @@ public class GuiListaDir {
 		}
 	}
 
+	public boolean excecaoPasta(String diretorio)
+	{
+		if(diretorio == null || diretorio.equals("") ||  diretorio.equals("Selecionar a pasta com arquivos .PRN"))
+		{
+			return false;
+		}	
+		return true;
+		
+	}
+	
 	public class bprocurarPRN implements ActionListener {
 		public bprocurarPRN() {}
 

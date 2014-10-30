@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -38,5 +39,15 @@ public class ValidaFormUtil {
 		}
 		return false;
 	}
-	
+
+	/** Método que verifica se a lista dos arquivos está no formato PRN **/
+	public boolean validaListaFilePRN(List<File> listFilePRN) {
+		for (File filePRN : listFilePRN) {
+			if (filePRN.getName().toLowerCase().endsWith(".prn")) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

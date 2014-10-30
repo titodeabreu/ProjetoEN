@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -44,7 +46,7 @@ public class GuiListaDir {
 	JLabel status;
 	JFileChooser fchooser;
 	JTextArea tarea;
-	List<File> listFilePRN;
+	List<File> listFilePRN = null;
 	File fileDAT;
 	JButton copiar;
 
@@ -119,11 +121,13 @@ public class GuiListaDir {
 	
 	public class gerarArquivosAL implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			
+			String teste = "";
 			ValidaFormUtil formUtil =  new ValidaFormUtil(frame);
 			
 			if(formUtil.validaCampos(diretorioPRN.getText(), diretorioDAT.getText(),destinoSalvar.getText())){
 				listFilePRN = new GeradorDAT().getListFile(diretorioPRN.getText());
+				List<File> listFilePRNArquivos = new ArrayList<File>();
+				
 				fileDAT = new GeradorDAT().getFile(diretorioDAT.getText());
 				String path = destinoSalvar.getText();
 				int i = 1;
@@ -133,14 +137,23 @@ public class GuiListaDir {
 					/**	Verificação necessária para que o método não gere um arquivo DAT para um outro arquivo DAT 
 					 ** que possa estar dentro da pasta que contém a lista de PRN **/
 					if(formUtil.validaFilePRN(filePRN)){
+						listFilePRNArquivos.add(filePRN);
 						path = path+"/output"+i+".dat";
 						GeradorDAT.gerarArquivosEntrada(frame, filePRN, fileDAT, path);
 						path = destinoSalvar.getText();
+						try {
+							 teste = GeradorDAT.formataArquivosLista(listFilePRNArquivos,frame,path);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						
 						i++;
 					}
-					
+							
 				}
-				
+				path = path+"/ARQUIVOS.dat";
+				GeradorDAT.gerarListaArquivos(frame, path, teste);
+				path = destinoSalvar.getText();
 				/**	Variáveis precisam ser zeradas no final da execução para que os mesmos
 				indices não fiquem em memória e gerem novos arquivos de conteúdo duplicados **/
 				GeradorDAT.lista.clear();	

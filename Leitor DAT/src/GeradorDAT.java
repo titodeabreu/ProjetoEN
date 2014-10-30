@@ -10,8 +10,12 @@ import java.util.List;
 import javax.swing.JFrame;
 
 public class GeradorDAT {
-	
+	 
 	public static List<File> lista = new ArrayList<File>();
+	
+	private String mes;
+	private String ano;
+	public String path;
 
 	public List<File> getListFile(String dir) {
 		File file = new File(dir);
@@ -42,7 +46,7 @@ public class GeradorDAT {
 		return conteudo;
 	}
 	
-	public static void gerarArquivosEntrada(JFrame frame,File filePRN, File fileDAT, String path) {
+	public void gerarArquivosEntrada(JFrame frame,File filePRN, File fileDAT, String path) {
 		try {
 			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
 			buffWrite.append(formataArquivosEntrada(filePRN, fileDAT));
@@ -62,7 +66,7 @@ public class GeradorDAT {
 
 
 	@SuppressWarnings("resource")
-	private static String formataArquivosEntrada(File filePRN, File fileDAT) throws IOException {
+	private String formataArquivosEntrada(File filePRN, File fileDAT) throws IOException {
 		
 		List<String> prn = new ArrayList<String>();
 		List<String> dat = new ArrayList<String>();
@@ -117,8 +121,9 @@ public class GeradorDAT {
 	}
 	
 	@SuppressWarnings("resource")
-	public static String formataArquivosLista(List<File> listFilePRN, JFrame frame, String path) throws IOException {
+	public String formataArquivosLista(List<File> listFilePRN, JFrame frame, String path) throws IOException {
 		
+		GeradorDAT getDat = new GeradorDAT();
 		String cabecalhoPRN = "";
 		String stringAux = "";
 		List<String> listarDadosLinha1 = new ArrayList<String>();;
@@ -132,13 +137,15 @@ public class GeradorDAT {
 				
 			String tmpMes = PRNReaderUtil.verificaDadosCabecalho(cabecalhoPRN.substring(17,26));
 			String mes = tmpMes.replace(" ", "").trim();
-			String ano = PRNReaderUtil.verificaDadosCabecalho(cabecalhoPRN.substring(28,32));
+			String tmpAno = PRNReaderUtil.verificaDadosCabecalho(cabecalhoPRN.substring(30,32));
+			String ano = tmpAno.replace(" ", "").trim();
 			
 			String linha1 = "ARQUIVO DE DADOS GERAIS     : NW-"+EnumMesArquivo.getSigla(mes)+ano+".DAT"+"\n";
 			listarDadosLinha1.add(linha1);
 			
 			String linha2 = "RELATORIO DE SAIDA          : saida-"+EnumMesArquivo.getSigla(mes)+ano+".REL"+"\n";
 			listarDadosLinha2.add(linha2);
+			this.path = path+"/NW-"+EnumMesArquivo.getSigla(mes)+ano+".DAT";
 			
 			mes = "";
 			ano = "";
@@ -166,6 +173,5 @@ public class GeradorDAT {
 
 		return stringAux;
 	}
-	
 	
 }

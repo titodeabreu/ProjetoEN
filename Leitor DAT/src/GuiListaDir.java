@@ -137,12 +137,12 @@ public class GuiListaDir {
 					/**	Verificação necessária para que o método não gere um arquivo DAT para um outro arquivo DAT 
 					 ** que possa estar dentro da pasta que contém a lista de PRN **/
 					if(formUtil.validaFilePRN(filePRN)){
-						listFilePRNArquivos.add(filePRN);
-						path = path+"/output"+i+".dat";
-						GeradorDAT.gerarArquivosEntrada(frame, filePRN, fileDAT, path);
-						path = destinoSalvar.getText();
 						try {
-							 teste = GeradorDAT.formataArquivosLista(listFilePRNArquivos,frame,path);
+							GeradorDAT geradorDAT = new GeradorDAT();
+							listFilePRNArquivos.add(filePRN);
+							teste = geradorDAT.formataArquivosLista(listFilePRNArquivos,frame,path);
+							geradorDAT.gerarArquivosEntrada(frame, filePRN, fileDAT, geradorDAT.path);
+//							path = geradorDAT.getPath()
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}

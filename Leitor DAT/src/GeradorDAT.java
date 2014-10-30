@@ -116,48 +116,49 @@ public class GeradorDAT {
 		}
 	}
 	
-	@SuppressWarnings("null")
+	@SuppressWarnings("resource")
 	public static String formataArquivosLista(List<File> listFilePRN, JFrame frame, String path) throws IOException {
 		
-		List<String> prn = new ArrayList<String>();
+		String cabecalhoPRN = "";
 		String stringAux = "";
-		String receberMes = "";
-		String receberAno = "";
-		String nomeMes;
 		List<String> listarDadosLinha1 = new ArrayList<String>();;
-		String linha1;
 		List<String> listarDadosLinha2 = new ArrayList<String>();;
-		String linha2;
+		
 		for (File filePRN : listFilePRN) {
-				
 			FileReader readerPRN = new FileReader(filePRN);
 			BufferedReader buffReaderPRN = new BufferedReader(readerPRN);
-			for (int i = 0; i < 20; i++) {
-				prn.add(buffReaderPRN.readLine());
-				receberMes = PRNReaderUtil.verificaDadosCabecalho(prn.get(0).substring(17,26));
-				System.out.println(prn);
-				//receberAno = PRNReaderUtil.getCabecalho(prn).substring(13,15);
-			}
-	
+
+			cabecalhoPRN = buffReaderPRN.readLine(); //LÊ SOMENTE A PRIMEIRA LINHA
+				
+			String tmpMes = PRNReaderUtil.verificaDadosCabecalho(cabecalhoPRN.substring(17,26));
+			String mes = tmpMes.replace(" ", "").trim();
+			String ano = PRNReaderUtil.verificaDadosCabecalho(cabecalhoPRN.substring(28,32));
 			
-			nomeMes = NomeArquivo.validarMes(Integer.parseInt(receberMes.trim()));
-			//if(listFilePRN.size() > 1)
-			linha1 = "ARQUIVO DE DADOS GERAIS     : NW-"+nomeMes+receberAno+".DAT"+"\n";
+			String linha1 = "ARQUIVO DE DADOS GERAIS     : NW-"+EnumMesArquivo.getSigla(mes)+ano+".DAT"+"\n";
 			listarDadosLinha1.add(linha1);
 			
-			linha2 = "RELATORIO DE SAIDA          : saida-"+nomeMes+receberAno+".REL"+"\n";
+			String linha2 = "RELATORIO DE SAIDA          : saida-"+EnumMesArquivo.getSigla(mes)+ano+".REL"+"\n";
 			listarDadosLinha2.add(linha2);
+			
+			mes = "";
+			ano = "";
+			tmpMes = "";
+			linha1 = "";
+			linha2 = "";
+			
 		}
 
 		for (String arquivoDadosLinha1 : listarDadosLinha1) {
-		stringAux = stringAux.concat(arquivoDadosLinha1);
+			stringAux = stringAux.concat(arquivoDadosLinha1);
 		}
 		
 		stringAux = stringAux.concat("ARQUIVO COM CORTES BENDERS  : CORTES.DAT"+"\n");
 		stringAux = stringAux.concat("ARQUIVO CABECALHO DE CORTES : CORTESH.DAT"+"\n");
-		for (String arquivoDadosLinha1 : listarDadosLinha2) {
-			stringAux = stringAux.concat(arquivoDadosLinha1);
-			}
+		
+		for (String arquivoDadosLinha2 : listarDadosLinha2) {
+			stringAux = stringAux.concat(arquivoDadosLinha2);
+		}
+		
 		stringAux = stringAux.concat("ARQUIVO P/DESPACHO HIDROTERM: NEWDESP.DAT"+"\n");
 		stringAux = stringAux.concat("ARQUIVO DE RESTRIOCOES SAR  : RSAR.DAT"+"\n");
 		stringAux = stringAux.concat("ARQUIVO DE CABECALHO SAR    : RSARH.DAT"+"\n");

@@ -1,53 +1,50 @@
+import java.util.HashMap;
+import java.util.Map;
 
+public enum EnumMesArquivo {
 
-public enum EnumMesArquivo{
+	JANEIRO("1", "jan"),
+	FEVEREIRO("2", "fev"),
+	MARCO("3", "mar"),
+	ABRIL("4", "abr"),
+	MAIO("5", "mai"),
+	JUNHO("6", "jun"),
+	JULHO("7", "jul"),
+	AGOSTO("8", "ago"),
+	SETEMBRO("9", "set"),
+	OUTUBRO("10", "out"),
+	NOVEMBRO("11", "nov"),
+	DEZEMBRO("12","dez");
 
-	JANEIRO(1, "Janeiro","jan"),
-	FEVEREIRO(2, "Fevereiro","fev"),
-	MARCO(3, "Março","mar"),
-	ABRIL(4, "Abril","abr"),
-	MAIOR(5, "Maio","mai"),
-	JUNHO(6, "Junho","jun"),
-	JULHO(7, "Julho","jul"),
-	AGOSTO(8, "Agosto","ago"),
-	SETEMBRO(9, "Setembro","set"),
-	OUTUBRO(10, "Outubro","out"),
-	NOVEMBRO(11, "Novembro","nov"),
-	DEZEMBRO(12, "Dezembro","dez");
+	private final String valor;
+	private final String sigla;
+	private static Map<String, String> map;
 
-	private EnumMesArquivo(int valor, String descricao, String sigla){
+	private EnumMesArquivo(String valor, String sigla) {
 		this.valor = valor;
-		this.descricao = descricao;
 		this.sigla = sigla;
 	}
-
-	private int valor;
-	private String descricao;
-	private String sigla;
 	
-	/**
-	 * @return the valor
-	 */
-	public int getValor() {
+	public String getValor() {
 		return valor;
 	}
 
-	/**
-	 * @return the descricao
-	 */
-	public String getDescricao() {
-		return descricao;
+	public static String getSigla(String valor) {
+		if (map == null) {
+			map = initializeMapping();
+		}
+		if (map.containsKey(valor)) {
+			return map.get(valor);
+		}
+		return null;
 	}
-	
-	/**
-	 * @return the valor
-	 */
-	public String getSigla() {
-		return sigla;
+
+	private static Map<String, String> initializeMapping() {
+	    Map<String, String> enumMA = new HashMap<String, String>();
+	    for (EnumMesArquivo ea : EnumMesArquivo.values()) {
+	    	enumMA.put(ea.valor, ea.sigla);
+	    }
+	    return enumMA;
 	}
 
 }
-
-
-
-

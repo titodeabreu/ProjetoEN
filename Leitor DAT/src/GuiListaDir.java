@@ -120,40 +120,24 @@ public class GuiListaDir {
 	}
 	
 	public class gerarArquivosAL implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			String teste = "";
+		public void actionPerformed(ActionEvent e){
 			ValidaFormUtil formUtil =  new ValidaFormUtil(frame);
 			
 			if(formUtil.validaCampos(diretorioPRN.getText(), diretorioDAT.getText(),destinoSalvar.getText())){
 				listFilePRN = new GeradorDAT().getListFile(diretorioPRN.getText());
-				List<File> listFilePRNArquivos = new ArrayList<File>();
-				
 				fileDAT = new GeradorDAT().getFile(diretorioDAT.getText());
 				String path = destinoSalvar.getText();
-				int i = 1;
+				int index = 1;
 				
 				for (File filePRN : listFilePRN) {
-					
-					/**	Verificação necessária para que o método não gere um arquivo DAT para um outro arquivo DAT 
-					 ** que possa estar dentro da pasta que contém a lista de PRN **/
 					if(formUtil.validaFilePRN(filePRN)){
-						try {
-							GeradorDAT geradorDAT = new GeradorDAT();
-							listFilePRNArquivos.add(filePRN);
-							teste = geradorDAT.formataArquivosLista(listFilePRNArquivos,frame,path);
-							geradorDAT.gerarArquivosEntrada(frame, filePRN, fileDAT, geradorDAT.path);
-//							path = geradorDAT.getPath()
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}
-						
-						i++;
-					}
-							
+						GeradorDAT geradorDAT = new GeradorDAT();
+						geradorDAT.gerarArquivoPRN(filePRN,fileDAT,path,index);
+						geradorDAT.gerarArquivoMAP(filePRN,path,index);
+						index++;
+					}	
 				}
-				path = path+"/ARQUIVOS.dat";
-				GeradorDAT.gerarListaArquivos(frame, path, teste);
-				path = destinoSalvar.getText();
+				
 				/**	Variáveis precisam ser zeradas no final da execução para que os mesmos
 				indices não fiquem em memória e gerem novos arquivos de conteúdo duplicados **/
 				GeradorDAT.lista.clear();	

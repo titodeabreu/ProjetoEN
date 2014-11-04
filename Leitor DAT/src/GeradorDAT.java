@@ -7,15 +7,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
-
 public class GeradorDAT {
 	 
 	public static List<File> lista = new ArrayList<File>();
-	
-	private String mes;
-	private String ano;
-	public String path;
+
+	public String pathDAT;
+	public String pathPRN;
 
 	public List<File> getListFile(String dir) {
 		File file = new File(dir);
@@ -46,37 +43,40 @@ public class GeradorDAT {
 		return conteudo;
 	}
 	
-	public void gerarArquivosEntrada(JFrame frame,File filePRN, File fileDAT, String path) {
+	public void gerarArquivoPRN(File filePRN, File fileDAT, String path, int index) {
 		try {
-			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
-			buffWrite.append(formataArquivosEntrada(filePRN, fileDAT));
+			String arquivo = formataArquivoPRN(filePRN, fileDAT, path, index);
+			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(pathPRN));
+			buffWrite.append(arquivo);
 			buffWrite.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		try {
-//			System.out.println("#######################################");
-//			System.out.println(formataArquivosEntrada(filePRN, fileDAT));
-//			System.out.println("#######################################\n");
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 	}
 	
 
 
 	@SuppressWarnings("resource")
-	private String formataArquivosEntrada(File filePRN, File fileDAT) throws IOException {
+	private String formataArquivoPRN(File filePRN, File fileDAT, String path, int index) throws IOException {
 		
 		List<String> prn = new ArrayList<String>();
 		List<String> dat = new ArrayList<String>();
 		String stringAux = "";
+		String cabecalhoPRN = "";
 			
 		FileReader readerPRN = new FileReader(filePRN);
 		BufferedReader buffReaderPRN = new BufferedReader(readerPRN);
+		
+		//cabecalhoPRN = buffReaderPRN.readLine(); //LÊ SOMENTE A PRIMEIRA LINHA
 		for (int i = 0; i < 20; i++) {
 			prn.add(buffReaderPRN.readLine());
 		}
+		
+		cabecalhoPRN = prn.get(0);
+		String tmpMes = PRNReaderUtil.verificaDadosCabecalho(cabecalhoPRN.substring(17,26));
+		String mes = tmpMes.replace(" ", "").trim();
+		String tmpAno = PRNReaderUtil.verificaDadosCabecalho(cabecalhoPRN.substring(30,32));
+		String ano = tmpAno.replace(" ", "").trim();
 		
 		stringAux = stringAux.concat("n periodos, mes inicial, ano inicial, =1(desp. hidrotermico), =2(valor da agua)"+"\n");
 		stringAux = stringAux.concat(" xxxx xxxx xxxx xxxx"+"\n");
@@ -106,72 +106,51 @@ public class GeradorDAT {
 		stringAux = stringAux.concat(DATReaderUtil.getDadosDAT(dat));
 		stringAux = stringAux.concat("nada");
 		
+		this.pathPRN = path+"/NW-"+EnumMesArquivo.getSigla(mes)+ano+".DAT";
+		
 		return stringAux;
 	}
 	
 	
-	public static void gerarListaArquivos(JFrame frame, String path, String Arquivostxt) {
+	public void gerarArquivoMAP(File fileArquivo, String path, int index) {
 		try {
-			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
-			buffWrite.append(Arquivostxt);
+			String arquivo = formataArquivoMAP(fileArquivo,path, index);
+			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(pathDAT));
+			buffWrite.append(arquivo);
 			buffWrite.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	@SuppressWarnings("resource")
-	public String formataArquivosLista(List<File> listFilePRN, JFrame frame, String path) throws IOException {
+	public String formataArquivoMAP(File filePRN, String path, int index) throws IOException {
 		
-		GeradorDAT getDat = new GeradorDAT();
 		String cabecalhoPRN = "";
 		String stringAux = "";
-		List<String> listarDadosLinha1 = new ArrayList<String>();;
-		List<String> listarDadosLinha2 = new ArrayList<String>();;
 		
-		for (File filePRN : listFilePRN) {
-			FileReader readerPRN = new FileReader(filePRN);
-			BufferedReader buffReaderPRN = new BufferedReader(readerPRN);
+		FileReader readerPRN = new FileReader(filePRN);
+		BufferedReader buffReaderPRN = new BufferedReader(readerPRN);
 
-			cabecalhoPRN = buffReaderPRN.readLine(); //LÊ SOMENTE A PRIMEIRA LINHA
-				
-			String tmpMes = PRNReaderUtil.verificaDadosCabecalho(cabecalhoPRN.substring(17,26));
-			String mes = tmpMes.replace(" ", "").trim();
-			String tmpAno = PRNReaderUtil.verificaDadosCabecalho(cabecalhoPRN.substring(30,32));
-			String ano = tmpAno.replace(" ", "").trim();
-			
-			String linha1 = "ARQUIVO DE DADOS GERAIS     : NW-"+EnumMesArquivo.getSigla(mes)+ano+".DAT"+"\n";
-			listarDadosLinha1.add(linha1);
-			
-			String linha2 = "RELATORIO DE SAIDA          : saida-"+EnumMesArquivo.getSigla(mes)+ano+".REL"+"\n";
-			listarDadosLinha2.add(linha2);
-			this.path = path+"/NW-"+EnumMesArquivo.getSigla(mes)+ano+".DAT";
-			
-			mes = "";
-			ano = "";
-			tmpMes = "";
-			linha1 = "";
-			linha2 = "";
-			
-		}
-
-		for (String arquivoDadosLinha1 : listarDadosLinha1) {
-			stringAux = stringAux.concat(arquivoDadosLinha1);
-		}
+		cabecalhoPRN = buffReaderPRN.readLine(); //LÊ SOMENTE A PRIMEIRA LINHA
+		String tmpMes = PRNReaderUtil.verificaDadosCabecalho(cabecalhoPRN.substring(17,26));
+		String mes = tmpMes.replace(" ", "").trim();
+		String tmpAno = PRNReaderUtil.verificaDadosCabecalho(cabecalhoPRN.substring(30,32));
+		String ano = tmpAno.replace(" ", "").trim();
 		
+
+		stringAux = stringAux.concat("ARQUIVO DE DADOS GERAIS     : NW-"+EnumMesArquivo.getSigla(mes)+ano+".DAT"+"\n");
 		stringAux = stringAux.concat("ARQUIVO COM CORTES BENDERS  : CORTES.DAT"+"\n");
 		stringAux = stringAux.concat("ARQUIVO CABECALHO DE CORTES : CORTESH.DAT"+"\n");
-		
-		for (String arquivoDadosLinha2 : listarDadosLinha2) {
-			stringAux = stringAux.concat(arquivoDadosLinha2);
-		}
-		
+		stringAux = stringAux.concat("RELATORIO DE SAIDA          : saida-"+EnumMesArquivo.getSigla(mes)+ano+".REL"+"\n");
 		stringAux = stringAux.concat("ARQUIVO P/DESPACHO HIDROTERM: NEWDESP.DAT"+"\n");
 		stringAux = stringAux.concat("ARQUIVO DE RESTRIOCOES SAR  : RSAR.DAT"+"\n");
 		stringAux = stringAux.concat("ARQUIVO DE CABECALHO SAR    : RSARH.DAT"+"\n");
 		stringAux = stringAux.concat("ARQUIVO DE INDICE SAR       : RSARI.DAT"+"\n");
+		
+		this.pathDAT = path+"/ARQUIVO-"+EnumMesArquivo.getSigla(mes)+ano+".DAT";
 
 		return stringAux;
+		
 	}
 	
 }

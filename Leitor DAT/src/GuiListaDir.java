@@ -131,9 +131,12 @@ public class GuiListaDir {
 				
 				for (File filePRN : listFilePRN) {
 					if(formUtil.validaFilePRN(filePRN)){
+						String pathCaso = path.concat("/CASO-0"+index);
+						File pastaCaso = new File(pathCaso);
+						pastaCaso.mkdir();
 						GeradorDAT geradorDAT = new GeradorDAT();
-						geradorDAT.gerarArquivoPRN(filePRN,fileDAT,path,index);
-						geradorDAT.gerarArquivoMAP(filePRN,path,index);
+						geradorDAT.gerarArquivoPRN(filePRN,fileDAT,pathCaso,index);
+						geradorDAT.gerarArquivoMAP(filePRN,pathCaso,index);
 						index++;
 					}	
 				}

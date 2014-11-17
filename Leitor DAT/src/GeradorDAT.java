@@ -106,7 +106,7 @@ public class GeradorDAT {
 		stringAux = stringAux.concat(DATReaderUtil.getDadosDAT(dat));
 		stringAux = stringAux.concat("nada");
 		
-		this.pathPRN = path+"/NW-"+EnumMesArquivo.getSigla(mes)+ano+".DAT";
+		this.pathPRN = path+"/nw-"+EnumMesArquivo.getSigla(mes)+ano+".dat";
 		
 		return stringAux;
 	}
@@ -114,7 +114,7 @@ public class GeradorDAT {
 	
 	public void gerarArquivoMAP(File fileArquivo, String path, int index) {
 		try {
-			String arquivo = formataArquivoMAP(fileArquivo,path, index);
+			String arquivo = formataArquivoMAP(fileArquivo,path);
 			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(pathDAT));
 			buffWrite.append(arquivo);
 			buffWrite.close();
@@ -123,7 +123,7 @@ public class GeradorDAT {
 		}
 	}
 	
-	public String formataArquivoMAP(File filePRN, String path, int index) throws IOException {
+	public String formataArquivoMAP(File filePRN, String path) throws IOException {
 		
 		String cabecalhoPRN = "";
 		String stringAux = "";
@@ -138,16 +138,16 @@ public class GeradorDAT {
 		String ano = tmpAno.replace(" ", "").trim();
 		
 
-		stringAux = stringAux.concat("ARQUIVO DE DADOS GERAIS     : NW-"+EnumMesArquivo.getSigla(mes)+ano+".DAT"+"\n");
-		stringAux = stringAux.concat("ARQUIVO COM CORTES BENDERS  : CORTES.DAT"+"\n");
-		stringAux = stringAux.concat("ARQUIVO CABECALHO DE CORTES : CORTESH.DAT"+"\n");
-		stringAux = stringAux.concat("RELATORIO DE SAIDA          : saida-"+EnumMesArquivo.getSigla(mes)+ano+".REL"+"\n");
-		stringAux = stringAux.concat("ARQUIVO P/DESPACHO HIDROTERM: NEWDESP.DAT"+"\n");
+		stringAux = stringAux.concat("ARQUIVO DE DADOS GERAIS     : nw-"+EnumMesArquivo.getSigla(mes)+ano+".dat"+"\n");
+		stringAux = stringAux.concat("ARQUIVO COM CORTES BENDERS  : cortes.dat"+"\n");
+		stringAux = stringAux.concat("ARQUIVO CABECALHO DE CORTES : cortesh.dat"+"\n");
+		stringAux = stringAux.concat("RELATORIO DE SAIDA          : saida-"+EnumMesArquivo.getSigla(mes)+ano+".rel"+"\n");
+		stringAux = stringAux.concat("ARQUIVO P/DESPACHO HIDROTERM: newdesp.dat"+"\n");
 		stringAux = stringAux.concat("ARQUIVO DE RESTRIOCOES SAR  : RSAR.DAT"+"\n");
 		stringAux = stringAux.concat("ARQUIVO DE CABECALHO SAR    : RSARH.DAT"+"\n");
 		stringAux = stringAux.concat("ARQUIVO DE INDICE SAR       : RSARI.DAT"+"\n");
 		
-		this.pathDAT = path+"/ARQUIVO-"+EnumMesArquivo.getSigla(mes)+ano+".DAT";
+		this.pathDAT = path+"/arquivos.dat";
 
 		return stringAux;
 		

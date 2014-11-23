@@ -72,21 +72,23 @@ public class PRNReaderUtil {
 		int aux2=16;
 		String mesPRN2 = "", linha2 = "";
 		do {
-			linha2 = linha2.concat(prn.get(aux2)+"\n");
-			mesPRN2 = mesPRN2.concat(verificaMes(linha2.substring(0, 8)));					//MES
-			mesPRN2 = mesPRN2.concat(verificaPrimeiraParcela(linha2.substring(9, 16)));		//PRIMEIRA DADO
-			mesPRN2 = mesPRN2.concat(".");
-			mesPRN2 = mesPRN2.concat(verificaParcela(linha2.substring(17, 24)));			//SEGUNDA DADO
-			mesPRN2 = mesPRN2.concat(".");
-			mesPRN2 = mesPRN2.concat(verificaParcela(linha2.substring(25, 32)));			//TERCEIRA DADO
-			mesPRN2 = mesPRN2.concat(".");
-			mesPRN2 = mesPRN2.concat(verificaParcela(linha2.substring(33, 40)));			//QUARTA DADO
-			mesPRN2 = mesPRN2.concat(".");
-			//mesPRN2 = mesPRN2.concat(linha.substring(41, 48));							//ZERO
-			mesPRN2 = mesPRN2.concat("\n");
-			linha2 = "";
+			if(prn.get(aux2) != null){
+				linha2 = linha2.concat(prn.get(aux2)+"\n");
+				mesPRN2 = mesPRN2.concat(verificaMes(linha2.substring(0, 8)));					//MES
+				mesPRN2 = mesPRN2.concat(verificaPrimeiraParcela(linha2.substring(9, 16)));		//PRIMEIRA DADO
+				mesPRN2 = mesPRN2.concat(".");
+				mesPRN2 = mesPRN2.concat(verificaParcela(linha2.substring(17, 24)));			//SEGUNDA DADO
+				mesPRN2 = mesPRN2.concat(".");
+				mesPRN2 = mesPRN2.concat(verificaParcela(linha2.substring(25, 32)));			//TERCEIRA DADO
+				mesPRN2 = mesPRN2.concat(".");
+				mesPRN2 = mesPRN2.concat(verificaParcela(linha2.substring(33, 40)));			//QUARTA DADO
+				mesPRN2 = mesPRN2.concat(".");
+				//mesPRN2 = mesPRN2.concat(linha.substring(41, 48));							//ZERO
+				mesPRN2 = mesPRN2.concat("\n");
+				linha2 = "";				
+			}
 			aux2++;
-		} while (aux2 < 18);
+		} while (aux2 < prn.size());
 		
 		return mesPRN2;
 	}

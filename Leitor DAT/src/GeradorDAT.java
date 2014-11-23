@@ -68,7 +68,7 @@ public class GeradorDAT {
 		BufferedReader buffReaderPRN = new BufferedReader(readerPRN);
 		
 		//cabecalhoPRN = buffReaderPRN.readLine(); //LÊ SOMENTE A PRIMEIRA LINHA
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 29; i++) {
 			prn.add(buffReaderPRN.readLine());
 		}
 		

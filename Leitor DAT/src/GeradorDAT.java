@@ -123,6 +123,7 @@ public class GeradorDAT {
 		}
 	}
 	
+	@SuppressWarnings("resource")
 	public String formataArquivoMAP(File filePRN, String path) throws IOException {
 		
 		String cabecalhoPRN = "";

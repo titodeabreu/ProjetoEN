@@ -50,14 +50,15 @@ public class PRNReaderUtil {
 		String mesPRN = "", linha = "";
 		do {
 			linha = linha.concat(prn.get(aux1)+"\n");
-			mesPRN = mesPRN.concat(verificaMes(linha.substring(0, 8)));						//MES
-			mesPRN = mesPRN.concat(verificaPrimeiraParcela(linha.substring(9, 16)));		//PRIMEIRA DADO
+			linha = linha.trim();
+			mesPRN = mesPRN.concat(verificaMes(linha.substring(0, 2)));						//MES
+			mesPRN = mesPRN.concat(verificaPrimeiraParcela(linha.substring(2, 10)));		//PRIMEIRA DADO
 			mesPRN = mesPRN.concat(".");
-			mesPRN = mesPRN.concat(verificaParcela(linha.substring(17, 24)));		 		//SEGUNDA DADO
+			mesPRN = mesPRN.concat(verificaParcela(linha.substring(10, 18)));		 		//SEGUNDA DADO
 			mesPRN = mesPRN.concat(".");
-			mesPRN = mesPRN.concat(verificaParcela(linha.substring(25, 32)));				//TERCEIRA DADO
+			mesPRN = mesPRN.concat(verificaParcela(linha.substring(19, 26)));				//TERCEIRA DADO
 			mesPRN = mesPRN.concat(".");
-			mesPRN = mesPRN.concat(verificaParcela(linha.substring(33, 40)));				//QUARTA DADO
+			mesPRN = mesPRN.concat(verificaParcela(linha.substring(26, 34)));				//QUARTA DADO
 			mesPRN = mesPRN.concat(".");
 			//mesPRN = mesPRN.concat(linha.substring(41, 48));								//ZERO
 			mesPRN = mesPRN.concat("\n");
@@ -74,16 +75,17 @@ public class PRNReaderUtil {
 		do {
 			if(prn.get(aux2) != null){
 				linha2 = linha2.concat(prn.get(aux2)+"\n");
-				mesPRN2 = mesPRN2.concat(verificaMes(linha2.substring(0, 8)));					//MES
-				mesPRN2 = mesPRN2.concat(verificaPrimeiraParcela(linha2.substring(9, 16)));		//PRIMEIRA DADO
+				linha2 = linha2.trim();
+				mesPRN2 = mesPRN2.concat(verificaMes(linha2.substring(0, 2)));					//MES
+				mesPRN2 = mesPRN2.concat(verificaPrimeiraParcela(linha2.substring(2, 10)));		//PRIMEIRA DADO
 				mesPRN2 = mesPRN2.concat(".");
-				mesPRN2 = mesPRN2.concat(verificaParcela(linha2.substring(17, 24)));			//SEGUNDA DADO
+				mesPRN2 = mesPRN2.concat(verificaParcela(linha2.substring(10, 18)));			//SEGUNDA DADO
 				mesPRN2 = mesPRN2.concat(".");
-				mesPRN2 = mesPRN2.concat(verificaParcela(linha2.substring(25, 32)));			//TERCEIRA DADO
+				mesPRN2 = mesPRN2.concat(verificaParcela(linha2.substring(19, 26)));			//TERCEIRA DADO
 				mesPRN2 = mesPRN2.concat(".");
-				mesPRN2 = mesPRN2.concat(verificaParcela(linha2.substring(33, 40)));			//QUARTA DADO
+				mesPRN2 = mesPRN2.concat(verificaParcela(linha2.substring(26, 34)));			//QUARTA DADO
 				mesPRN2 = mesPRN2.concat(".");
-				//mesPRN2 = mesPRN2.concat(linha.substring(41, 48));							//ZERO
+				//mesPRN2 = mesPRN2.concat(linha.substring(34, 41));							//ZERO
 				mesPRN2 = mesPRN2.concat("\n");
 				linha2 = "";				
 			}
@@ -111,17 +113,18 @@ public class PRNReaderUtil {
 	public static String getEnergiaArmazenadaInicial(List<String> prn){
 		String linha = "" ,energiaInicial = "";
 		linha = linha.concat(prn.get(2)+"\n");
+		linha = linha.trim();
 		energiaInicial = energiaInicial.concat(" ");
-		energiaInicial = energiaInicial.concat(verificaDadosEnergia(linha.substring(0,16)));	//PRIMEIRO DADO
+		energiaInicial = energiaInicial.concat(verificaDadosEnergia(linha.substring(0,5)));	//PRIMEIRO DADO
 		energiaInicial = energiaInicial.concat(".0  ");
 		energiaInicial = energiaInicial.concat(" ");
-		energiaInicial = energiaInicial.concat(verificaDadosEnergia(linha.substring(17,24)));	//SEGUNDO DADO
+		energiaInicial = energiaInicial.concat(verificaDadosEnergia(linha.substring(6,13)));	//SEGUNDO DADO
 		energiaInicial = energiaInicial.concat(".0  ");
 		energiaInicial = energiaInicial.concat(" ");
-		energiaInicial = energiaInicial.concat(verificaDadosEnergia(linha.substring(25,32)));	//TERCEIRO DADO
+		energiaInicial = energiaInicial.concat(verificaDadosEnergia(linha.substring(14,21)));	//TERCEIRO DADO
 		energiaInicial = energiaInicial.concat(".0  ");
 		energiaInicial = energiaInicial.concat(" ");
-		energiaInicial = energiaInicial.concat(verificaDadosEnergia(linha.substring(33,40)));	//QUARTO DADO
+		energiaInicial = energiaInicial.concat(verificaDadosEnergia(linha.substring(22,29)));	//QUARTO DADO
 		energiaInicial = energiaInicial.concat(".0  ");
 		energiaInicial = energiaInicial.concat(" ");
 		energiaInicial = energiaInicial.concat("\n");

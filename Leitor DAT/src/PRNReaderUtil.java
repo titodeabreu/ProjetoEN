@@ -98,14 +98,15 @@ public class PRNReaderUtil {
 	public static String getCabecalho(List<String> prn) {
 		String linha = "" ,dadoCabecalho = "";
 		linha = linha.concat(prn.get(0)+"\n");
+		linha = linha.trim();
 		dadoCabecalho = dadoCabecalho.concat(" ");
-		dadoCabecalho = dadoCabecalho.concat(verificaDadosCabecalho(linha.substring(0,16)));	//NUMERO DE PERIODOS
+		dadoCabecalho = dadoCabecalho.concat(verificaDadosCabecalho(linha.substring(0,2)));	//NUMERO DE PERIODOS
 		dadoCabecalho = dadoCabecalho.concat(" ");
-		dadoCabecalho = dadoCabecalho.concat(verificaDadosCabecalho(linha.substring(17,26)));	//MES INICIAL
+		dadoCabecalho = dadoCabecalho.concat(verificaDadosCabecalho(linha.substring(2,10)));	//MES INICIAL
 		dadoCabecalho = dadoCabecalho.concat(" ");
-		dadoCabecalho = dadoCabecalho.concat(verificaDadosCabecalho(linha.substring(27,32)));	//ANO INICIAL
+		dadoCabecalho = dadoCabecalho.concat(verificaDadosCabecalho(linha.substring(10,18)));	//ANO INICIAL
 		dadoCabecalho = dadoCabecalho.concat(" ");
-		dadoCabecalho = dadoCabecalho.concat(verificaDadosCabecalho(linha.substring(33,40)));	//1 PARA (DESP. HIDROTERMICO), e 2 PARA (VALOR DA AGUA)
+		dadoCabecalho = dadoCabecalho.concat(verificaDadosCabecalho(linha.substring(19,25)));	//1 PARA (DESP. HIDROTERMICO), e 2 PARA (VALOR DA AGUA)
 		dadoCabecalho = dadoCabecalho.concat("\n");
 		return dadoCabecalho;
 	}

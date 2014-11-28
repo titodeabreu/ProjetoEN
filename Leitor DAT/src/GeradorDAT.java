@@ -72,10 +72,10 @@ public class GeradorDAT {
 			prn.add(buffReaderPRN.readLine());
 		}
 		
-		cabecalhoPRN = prn.get(0);
-		String tmpMes = PRNReaderUtil.verificaDadosCabecalho(cabecalhoPRN.substring(17,26));
+		cabecalhoPRN = prn.get(0).trim();
+		String tmpMes = PRNReaderUtil.verificaDadosCabecalho(cabecalhoPRN.substring(2,10));
 		String mes = tmpMes.replace(" ", "").trim();
-		String tmpAno = PRNReaderUtil.verificaDadosCabecalho(cabecalhoPRN.substring(30,32));
+		String tmpAno = PRNReaderUtil.verificaDadosCabecalho(cabecalhoPRN.substring(15,18));
 		String ano = tmpAno.replace(" ", "").trim();
 		
 		stringAux = stringAux.concat("n periodos, mes inicial, ano inicial, =1(desp. hidrotermico), =2(valor da agua)"+"\n");
